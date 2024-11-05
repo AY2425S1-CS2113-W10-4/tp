@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static seedu.message.ErrorMessages.LACK_ARGUMENTS_ERROR_MESSAGE;
+
 public class AddExpenseCommand extends AddTransactionCommand {
     public static final String COMMAND_WORD = "add-expense";
     public static final String COMMAND_GUIDE = "add-expense [DESCRIPTION] [a/ AMOUNT] [d/ DATE] [c/ CATEGORY]";
