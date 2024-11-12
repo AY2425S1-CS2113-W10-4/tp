@@ -51,11 +51,22 @@ uNivUSaver is a CLI-based software that helps students to develop a better habit
 >- Empty commands will be ignored.
 >- The date and time format for input is `yyyy-MM-dd [hhMM]`. Time is optional, the system will automatically take '2359' or '0000' for time.
 >- The month format for input is `yyyy-MM-dd`
+>- Description and category names cannot exceed 40 characters.
+>- Please enter one command at a time
+
 
 > **&#9432;** **NOTES ON THE TRANSACTION LIST:**
 >- The transaction list will be sorted in time order.
 >- Any updating action (e.g. deleting, re-categorizing...) will be performed on the whole transaction list, not the sole expense/ income list
+>- The upper limit for each transaction is 1000000000 (1 billion)
 
+> **&#9432;** **NOTES ON SAVE AND LOAD FUNCTIONALITY (FOR ADVANCED USERS)**
+> - The Save & Load Functionality is implemented by serialising TransactionList, CategoryList and budgets and save as JSON files in the local storage
+> - It is not advisable to edit JSON files directly as a corrupted JSON file may lead to unwanted effects
+> - JSON Error Handling:
+>   - Corruption within objects (eg. invalid key or value, incorrect syntax): The programme will skip these objects while loading the JSON file
+>   - Corruption of JSON file structure: The content will be cleared and reinitialised, previously stored objects will be lost
+> - [JSON Guide](JSON)
 ### View command list: `help`
 - View all available commands in the application.
 - **Format:** `help`
@@ -75,6 +86,7 @@ uNivUSaver is a CLI-based software that helps students to develop a better habit
   add-expense ChiCha San Chen a/ 6 d/ 2024-09-09 c/ FnB
   ```
 
+
 #### Add an income: `add-income`
 - Add an amount of income into the history.
 - **Format:** `add-income [DESCRIPTION] a/ AMOUNT [d/ DATE]`
@@ -86,6 +98,7 @@ uNivUSaver is a CLI-based software that helps students to develop a better habit
   add-income a/ 52 d/ 2024-09-19 1100
   ```
 
+  
 #### Add a category: `add-category`
 - Add a category into the category list.
 - **Format:** `add-category CATEGORY_NAME`
@@ -203,7 +216,57 @@ uNivUSaver is a CLI-based software that helps students to develop a better habit
 - Peacefully leave the application
 - **Format:** `bye`
 
-
+## JSON Editing ##
+- JSON basic syntax:
+    - data is in key/value pairs ```"key":"value"```
+    - Data is separated by commas 
+    - Curly braces hold objects ```{"key":"value"}```
+    - Square brackets hold arrays ```[{"key1":"value1"},{"key2":"value2"}]```
+- TransactionList and CategoryList in the programme are stored as Array of Transaction object and Category object respectively, Budgets are stored as key/value pairs
+- TransactionList Syntax:
+```
+[
+    {
+      "type": "expense",
+      "category": {
+         "name": ""
+       },
+      "amount": 52.0,
+      "description": "Amusement park",
+      "dateTimeString": "2024-08-09 0000"
+    },
+    {
+    "type": "income",
+    "amount": 300.0,
+    "description": "Monthly allowance",
+    "dateTimeString": "2024-09-19 1100"
+    }
+]
+```
+- CategoryList Syntax:
+```
+[
+  {
+    "name": "Food"
+  },
+  {
+    "name": "Transport"
+  },
+  {
+    "name": "Entertainment"
+  },
+  {
+    "name": "FnB"
+  }
+]
+```
+- Budgets Syntax:
+```
+{
+  "2024-11": 100.0,
+  "2024-12": 200.0
+}
+```
 ## Command Summary
 
 ### Command List
